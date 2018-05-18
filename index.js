@@ -8,7 +8,7 @@ keep listening income request and route request to handler*/
 const app = express();
 
 app.get('/', (req, res) => {
-  res.send({ hi: 'there' });
+  res.send({ bye: 'buddy' });
 });
 
 /*dynamic figure aout what port our app shuold listen to
