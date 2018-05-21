@@ -29,7 +29,7 @@ module.exports = app => {
 
   //user login, passport get user info from cookie
   //then deserialzie User, add user object into req.
-  app.get('/api/cuurent_user', (req, res) => {
+  app.get('/api/current_user', (req, res) => {
     res.send(req.user);
   });
 };
