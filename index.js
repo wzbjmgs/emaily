@@ -26,6 +26,9 @@ const app = express();
 
 //tell application to user cookieSession
 //set up new cookieSession stracture
+//app.use add middleware inside our application
+//middlewares are small functions are used to modify incoming request
+//before request is forwared to route handler
 app.use(
   cookieSession({
     //cookie last for 30 days
