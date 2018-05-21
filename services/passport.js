@@ -43,7 +43,8 @@ passport.use(
       clientSecret: keys.googleClientSecret,
       //when user grant the permission, return back to our server
       //this callback URI has to be the same with URI in Google API
-      callbackURL: '/auth/google/callback'
+      callbackURL: '/auth/google/callback',
+      proxy: true
     },
     (accessToken, refreshToken, profile, done) => {
       //if user profile id alreayd in db, skip creation part.
