@@ -46,34 +46,31 @@ passport.use(
       callbackURL: '/auth/google/callback',
       proxy: true
     },
-    (accessToken, refreshToken, profile, done) => {
+    //here is the function includes some async actions
+    //refact promise style by using async and await style
+    //which is more native style
+    async (accessToken, refreshToken, profile, done) => {
       //if user profile id alreayd in db, skip creation part.
-      User.findOne({ googleId: profile.id })
-        //return promiss
-        .then(existingUser => {
-          if (existingUser) {
-            //we alreayd have a record with given profile id
-            //call done to resume the auth process
-            //first parameter means no error here
-            //second parameter is the user we found
-            done(null, existingUser);
-          } else {
-            //we don't have a user record with this id, make a new record
-            //use model class to create a new instance for user
-            //if do not call save() function
-            //the new user instance will not be saved into database
-            //it will only exist in application memory
-            new User({ googleId: profile.id })
-              .save()
-              //everytime we call save is a non sync process
-              //user is the user object was just saved
-              //.then is the promiss call back
-              .then(user => done(null, user));
-          }
-        })
-        .catch(error => {
-          console.log('error', error);
-        });
+      const existingUser = await User.findOne({ googleId: profile.id });
+      //return promiss
+      if (existingUser) {
+        //we alreayd have a record with given profile id
+        //call done to resume the auth process
+        //first parameter means no error here
+        //second parameter is the user we found
+        done(null, existingUser);
+      } else {
+        //we don't have a user record with this id, make a new record
+        //use model class to create a new instance for user
+        //if do not call save() function
+        //the new user instance will not be saved into database
+        //it will only exist in application memory
+        const user = await new User({ googleId: profile.id }).save();
+        //everytime we call save is a non sync process
+        //user is the user object was just saved
+        //.then is the promiss call back
+        done(null, user);
+      }
     }
   )
 );
