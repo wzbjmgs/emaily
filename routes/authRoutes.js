@@ -18,4 +18,8 @@ module.exports = app => {
   //big difference between these two route hanlders is that
   //second includes code to ask user info
   app.get('/auth/google/callback', passport.authenticate('google'));
+
+  app.get('/api/cuurent_user', (req, res) => {
+    res.send(req.user);
+  });
 };
