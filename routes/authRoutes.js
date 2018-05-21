@@ -19,6 +19,16 @@ module.exports = app => {
   //second includes code to ask user info
   app.get('/auth/google/callback', passport.authenticate('google'));
 
+  app.get('/api/logout', (req, res) => {
+    //logout is the function attached to req automatically
+    //by passport
+    req.logout();
+    //kills user id stored in cookie
+    res.send(req.user);
+  });
+
+  //user login, passport get user info from cookie
+  //then deserialzie User, add user object into req.
   app.get('/api/cuurent_user', (req, res) => {
     res.send(req.user);
   });
