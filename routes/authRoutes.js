@@ -17,14 +17,24 @@ module.exports = app => {
   //request from google
   //big difference between these two route hanlders is that
   //second includes code to ask user info
-  app.get('/auth/google/callback', passport.authenticate('google'));
+  //passport.authenticate is a middleware and after it is completed, we
+  //need to clearify what is next
+  app.get(
+    '/auth/google/callback',
+    passport.authenticate('google'),
+    (req, res) => {
+      //after successfully login, redirect to dashboard page
+      res.redirect('/surveys');
+    }
+  );
 
   app.get('/api/logout', (req, res) => {
     //logout is the function attached to req automatically
     //by passport
     req.logout();
     //kills user id stored in cookie
-    res.send(req.user);
+    //res.send(req.user);
+    res.redirect('/');
   });
 
   //user login, passport get user info from cookie
