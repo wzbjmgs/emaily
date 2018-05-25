@@ -3,6 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+//middleware to parse incoming request bodies
+const bodyParser = require('body-parser');
 const keys = require('./config/keys');
 
 require('./models/User');
@@ -23,6 +25,11 @@ majority applicaiton use single express app
 this app used to setup configuration
 keep listening income request and route request to handler*/
 const app = express();
+
+//bind bodyParser to app, so that app will use this middleware
+//now any request with request body comes in,this middleware will parse the body,
+//and assign it to req.body of the incoming request object
+app.use(bodyParser.json());
 
 //tell application to user cookieSession
 //set up new cookieSession stracture
@@ -46,11 +53,13 @@ app.use(
 //It enables us to load additional user information on every request.
 //This user object is attached to the request as req.user making
 //it accessible in our request handling.
+//passport.initialize also add user obj to req
 app.use(passport.initialize());
 app.use(passport.session());
 
 //pass app variable into authRoutes
 require('./routes/authRoutes')(app);
+require('./routes/billingRoutes')(app);
 
 /*dynamic figure aout what port our app shuold listen to
 if the port already been defined by heroku, then use that PORT

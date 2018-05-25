@@ -8,7 +8,8 @@ const { Schema } = mongoose;
 
 //descripe all different properties we have
 const userSchema = new Schema({
-  googleId: String
+  googleId: String,
+  credits: { type: Number, default: 0 }
 });
 
 //tell mongo to create a new collection

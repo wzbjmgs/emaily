@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import Payments from './Payments';
 
 //put function inside to decide what to render or display
 //in header
@@ -18,11 +19,20 @@ class Header extends Component {
           </li>
         );
       default:
-        return (
-          <li>
+        //return a array needs keys for each of item if user logged in
+        return [
+          <li key="1">
+            <Payments />
+          </li>,
+          //this.props.auth is the return obj of auth reducer inside the
+          //payload of return obj, including res.data Credits:{' '}
+          <li key="3" style={{ margin: '0, 10px' }}>
+            Credits : {this.props.auth.credits}
+          </li>,
+          <li key="2">
             <a href="/api/logout">Logout</a>
           </li>
-        );
+        ];
     }
   }
   render() {
@@ -49,4 +59,5 @@ function mapStateToProps(state) {
   return { auth: state.auth };
 }
 
+//second argument is actions, there is no need to put here.
 export default connect(mapStateToProps)(Header);
