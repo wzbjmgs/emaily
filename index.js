@@ -61,6 +61,21 @@ app.use(passport.session());
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
 
+if (process.env.NODE_ENV == 'production') {
+  //express will serve up prodiction assets
+  //like our main.js file, main.css file
+  //if someone looking for /clinet/build/static/js/main.js
+  //look into client/build folder to see if any exist
+  app.use(express.static('client/build'));
+
+  //in another word, it will forward react route request to react server
+  //Express will server up index.html if it doesn't regonize the route
+  const path = require('path');
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
 /*dynamic figure aout what port our app shuold listen to
 if the port already been defined by heroku, then use that PORT
 if not, then use default 5000
