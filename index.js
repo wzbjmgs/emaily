@@ -12,6 +12,7 @@ require('./models/User');
 //all the services and models will be loaded
 // User model has to be delcared first
 //because passport want to use it
+require('./models/Survey');
 require('./services/passport');
 
 //https://mlab.com/databases/emaily-jayden-dev#users
@@ -60,6 +61,7 @@ app.use(passport.session());
 //pass app variable into authRoutes
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
+require('./routes/surveyRoutes')(app);
 
 if (process.env.NODE_ENV == 'production') {
   //express will serve up prodiction assets
